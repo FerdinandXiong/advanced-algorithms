@@ -64,3 +64,62 @@ def max_sum(array, start, end):
                 + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxLeftIndex) 
                 + ' ending at ' + str(maxRightIndex))
                 return SubarrayResult(maxCrossingSum, maxLeftIndex, maxRightIndex)
+
+# Define the named tuple for structured access
+SubarrayResult2 = namedtuple('SubarrayResult', ['max_sum_value', 'start', 'end', 'I_value', 'I_end', 
+                                                'J_value', 'J_start', 'whole_sum'])
+
+# algorithm returns the value of the maximal sum, the start, end index of the sum, 
+# I, J, their values and the whole array value
+# RUNTIME RUNTIME θ(n)
+def max_sum2(array, start, end):
+    # basecase:
+    if start == end:
+        single_value = array[start]
+        return SubarrayResult2(single_value, start, end, single_value, start, single_value, end, single_value)
+    # divide in left and right subproblem: 
+    # RUNTIME 2T(n/2)
+    else:
+        mid = (start + end)//2
+        left_result = max_sum2(array, start, mid)
+        right_result = max_sum2(array, mid + 1, end)
+        
+        # conquer:
+        # our I can either end 
+        # at its old end (left_result.I_end), 
+            # in which case I_value is the old one (left_result.I_value)
+        # or at the end of J (right_result.end), 
+            # in which case I_value = left_result.whole_sum + right_result.I_value
+        # So we need to compare 
+        # (left_result.I_value) with left_result.whole_sum + right_result.I_value
+        # and take the bigger value as our new I      
+        I_value = left_result.whole_sum + right_result.I_value
+        I_end = right_result.I_end
+        if left_result.I_value > I_value:
+            I_value = left_result.I_value
+            I_end = left_result.I_end                        
+        
+        # our J can either start in I (left_result.start)
+            # in which case J_value = left_result.J_value + right_result.whole_sum
+        # or at its old start (right_result.J_start)
+            # in which case I_value is the old one (right_result.I_value)
+        J_value = right_result.whole_sum + left_result.J_value
+        J_start = left_result.J_start
+        if right_result.J_value > J_value:
+            J_value = right_result.J_value
+            J_start = right_result.J_start
+            
+        # whole_sum is addition between left and right
+        whole_sum = left_result.whole_sum + right_result.whole_sum
+        
+        # if both cross -> this is new maxsum, if none cross, take bigger old max_sum
+        # if one crosses and the other does not, take the bigger between crossed and
+        # not crossed value
+        
+        max_sum_value = left_result.J_value + right_result.I_value
+        if left_result.max_sum_value > max_sum_value:
+            return SubarrayResult2(left_result.max_sum_value, left_result.start, left_result.end, I_value, I_end, J_value, J_start, whole_sum)
+        elif right_result.max_sum_value > max_sum_value:
+            return SubarrayResult2(right_result.max_sum_value, right_result.start, right_result.end, I_value, I_end, J_value, J_start, whole_sum)
+        else:
+            return SubarrayResult2(max_sum_value, left_result.J_start, right_result.I_end, I_value, I_end, J_value, J_start, whole_sum)
