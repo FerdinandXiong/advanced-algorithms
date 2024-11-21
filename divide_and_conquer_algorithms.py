@@ -50,19 +50,19 @@ def max_sum(array, start, end):
 
         match max_max_sum:
             case maxSumLeft.max_sum_value:
-                print('Subarray with startindex ' + str(start) + ' and endindex ' + str(end) 
-                + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxSumLeft.start) 
-                + ' ending at ' + str(maxSumLeft.end))
+                # print('Subarray with startindex ' + str(start) + ' and endindex ' + str(end) 
+                # + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxSumLeft.start) 
+                # + ' ending at ' + str(maxSumLeft.end))
                 return maxSumLeft
             case maxSumRight.max_sum_value:
-                print('Subarray with startindex ' + str(start) + ' and endindex ' + str(end) 
-                + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxSumRight.start) 
-                + ' ending at ' + str(maxSumRight.end))
+                # print('Subarray with startindex ' + str(start) + ' and endindex ' + str(end) 
+                # + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxSumRight.start) 
+                # + ' ending at ' + str(maxSumRight.end))
                 return maxSumRight
             case maxCrossingSum:
-                print('Subarray with startindex ' + str(start) + ' and endindex ' + str(end) 
-                + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxLeftIndex) 
-                + ' ending at ' + str(maxRightIndex))
+                # print('Subarray with startindex ' + str(start) + ' and endindex ' + str(end) 
+                # + ' has max_sum_value ' + str(max_max_sum) + ' starting from ' + str(maxLeftIndex) 
+                # + ' ending at ' + str(maxRightIndex))
                 return SubarrayResult(maxCrossingSum, maxLeftIndex, maxRightIndex)
 
 # Define the named tuple for structured access
