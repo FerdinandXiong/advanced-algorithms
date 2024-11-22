@@ -9,7 +9,7 @@ def max_sum(array, start, end):
     # for arrays of length 1, we return the single element list and its indices
     # RUNTIME 1
     if start == end:
-        print('Subarray with index ' + str(start) + ' has sum_value ' + str(array[start]))
+        # print('Subarray with index ' + str(start) + ' has sum_value ' + str(array[start]))
         return SubarrayResult(array[start], start, end)
     # for bigger arrays, we need to DIVIDE
     # RUNTIME 2T(n/2)
