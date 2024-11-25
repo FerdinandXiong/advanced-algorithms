@@ -1,7 +1,8 @@
 import random
+import math
 
 # quicksort returns sorted array by comparing elements to a pivot element
-# EXPECTED RUNTIME: n + 
+# EXPECTED RUNTIME: O(n) + 1/n ∑{k = 0}^{n} (O(k-1) + O(n-k))
 def quicksort(arr, start, end):
     if start < end:
         # compute pivot element
@@ -22,6 +23,30 @@ def quicksort(arr, start, end):
         arr[end], arr[i] = arr[i], arr[end]
         
         # recursively quicksort the rest of the elements
+        # given a splitter element k, left side O(k-1), right side O(n-k)
+        # since there are n possible positions for k, for the expected runtime,
+        # each possible outcome needs to be multiplied by 1/n:
+        # => EXPECTED RUNTIME for LEFT and RIGHT:
+        # 1/n sum 1,k(O(k-1) + O(n-k)
         quicksort(arr, start, i-1) 
         quicksort(arr, i + 1, end)
-    
+
+# naive implementation: RUNTIME sqrt(n)
+def naive_is_prime(n):
+    if n < 2:
+        return False
+    if n == 2:
+        return True
+    for i in range (2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+# simple implementation: returns True if it is possibly prime
+# returns False if not prime
+# RUNTIME O(1), good if you assume that the input is not Prime
+def simple_primality_test(n): 
+    if 2 ** (n-1) % n == 1:
+        return True
+    else:
+        return False
