@@ -42,11 +42,85 @@ def naive_is_prime(n):
             return False
     return True
 
-# simple implementation: returns True if it is possibly prime
-# returns False if not prime
+# For the fast exponentiation algorithm, our runtime calculation are based on 
+# n as the exponent and a as base
+def fast_exponent(base, exponent):
+    if exponent == 1:
+        # RUNTIME 1
+        return base
+    elif exponent % 2 == 0:
+        # RUNTIME T(n/2) + log(a^n/2) * log(a^n/2) => log(n) * log(a^n/2)^2
+        half_exponent = fast_exponent(base, exponent//2)
+        return half_exponent * half_exponent
+    else:
+        # RUNTIME T(n/2) + log(a^n/2) * log(a^n/2) => log(n) * log(a^n/2)^2 * log(a)
+        half_minus_1_exponent = fast_exponent(base, (exponent - 1)//2)
+        return half_minus_1_exponent * half_minus_1_exponent * base
+    
+def fast_exponent_mod(base, exponent, mod):
+    if exponent == 1:
+        # RUNTIME 1
+        return base
+    elif exponent % 2 == 0:
+        # RUNTIME T(n/2) + log(a^n/2) * log(a^n/2) => log(n) * log(a^n/2)^2
+        half_exponent = fast_exponent_mod(base, exponent//2, mod)
+        return (half_exponent * half_exponent) % mod
+    else:
+        # RUNTIME T(n/2) + log(a^n/2) * log(a^n/2) => log(n) * log(a^n/2)^2 * log(a)
+        half_minus_1_exponent = fast_exponent_mod(base, (exponent - 1)//2, mod)
+        return (half_minus_1_exponent * half_minus_1_exponent * base) % mod
+
+# simple implementation: can detect numbers that are not prime, 
+# false is the only certain answer, since true could have false positives
+# returns True : possibly prime, no conclusion can be made
+# returns False => not prime
 # RUNTIME O(1), good if you assume that the input is not Prime
-def simple_primality_test(n): 
-    if 2 ** (n-1) % n == 1:
+def simple_probably_prime_test(n): 
+    b = pow(2, n - 1, n)
+    if b == 1:
         return True
     else:
         return False
+    
+# in order to decrease the possibility for false positives, 
+# we can use the miller rabin test
+# we use fermat's little theorem to test further numbers of the group
+# in principle: a^(p-1) mod p = 1, we tested 2 for a, but we can take random numbers
+def randomized_primality_test(n):
+    a = random.randint(2, n-1)
+    b =  pow(a, n - 1, n)
+    print('n : ' + str(n) + '; a: ' + str(a) + '; b: ' + str(b))
+    if b == 1:
+        return True
+    else: 
+        return False
+
+# tests the randomized primality test for all powers of 2
+# starting with d = n - 1
+def miller_rabin_test(n):
+    if n == 2:
+        return True
+
+    d = n - 1
+    r = 0
+    while d % 2 == 0:
+        r += 1
+        d //= 2    
+    
+    for _ in range (10): # randomly selected number
+        a = random.randint(2, n-1)
+        x = pow(a, d, n)
+        if x == 1 or x == n - 1:
+            continue
+        
+        for _ in range (r - 1):
+            # checking for charimichael nubers: by squaring x
+            x = pow(x, 2, n)
+            if x == n - 1:
+                break
+            
+        else:
+            # fermats theorem violated => not prime
+            return False            
+    
+    return True   
