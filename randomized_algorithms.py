@@ -56,7 +56,8 @@ def fast_exponent(base, exponent):
         # RUNTIME T(n/2) + log(a^n/2) * log(a^n/2) => log(n) * log(a^n/2)^2 * log(a)
         half_minus_1_exponent = fast_exponent(base, (exponent - 1)//2)
         return half_minus_1_exponent * half_minus_1_exponent * base
-    
+
+# equivalent to library implementation of pow()
 def fast_exponent_mod(base, exponent, mod):
     if exponent == 1:
         # RUNTIME 1
