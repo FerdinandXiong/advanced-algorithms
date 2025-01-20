@@ -1,7 +1,11 @@
 import random
+import glob
+import os
 from graphviz import Digraph  # Importing Graphviz for visualization
 
 class treap_node():
+    snapshot_counter = 0  # Class-level counter for snapshots
+    
     def __init__(self, key, prio=None, treap=None):
         self.key = key
         self.prio = prio if prio is not None else random.randint(1, 100)
@@ -18,7 +22,9 @@ class treap_node():
             if self.left_child is None:
                 self.left_child = treap_node
                 treap_node.parent = self
-                treap_node.restore_heap_property()
+                treap_node.restore_heap_property()                    
+                self.treap.visualize()  # Visualize after insert         
+                self.capture_snapshot("After insert")
             else:
                 self.left_child.insert(treap_node)
         else:
@@ -26,6 +32,8 @@ class treap_node():
                 self.right_child = treap_node
                 treap_node.parent = self
                 treap_node.restore_heap_property()
+                self.treap.visualize()  # Visualize after insert         
+                self.capture_snapshot("After insert")                
             else:
                 self.right_child.insert(treap_node)
                     
@@ -60,7 +68,8 @@ class treap_node():
             treap.root = self  # Update the root of the treap
         
         parent.parent = self
-        treap.visualize()  # Visualize after rotation
+        treap.visualize()  # Visualize after rotation        
+        self.capture_snapshot("After rotate right")
         
     def rotate_left(self):
         print(f"Rotating left {self.key}")
@@ -83,7 +92,8 @@ class treap_node():
             treap.root = self  # Update the root of the treap
         
         parent.parent = self
-        treap.visualize()  # Visualize after rotation
+        treap.visualize()  # Visualize after rotation        
+        self.capture_snapshot("After rotate left")
         
     def find(self, key):
         if key == self.key:
@@ -143,6 +153,27 @@ class treap_node():
             graph.edge(str(self.key), null_right)
 
         return graph
+    
+    @staticmethod
+    def clear_snapshots(directory='output', extension='png'):
+        """Clear all existing snapshots."""
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        else:
+            for file in glob.glob(f"{directory}/*.{extension}"):
+                os.remove(file)
+                
+    def capture_snapshot(self, description=""):
+        """Capture a snapshot of the current treap structure."""
+        if self.treap is None or self.treap.root is None:
+            return
+
+        directory = 'output'
+        graph = self.treap.root.to_dot()
+        filename = f"{directory}/treap_step_{treap_node.snapshot_counter:02d}"
+        graph.render(filename=filename, format="png", cleanup=True)
+        print(f"Captured snapshot: {filename} - {description}")
+        treap_node.snapshot_counter += 1
 
 class treap():
     def __init__(self, root=None):

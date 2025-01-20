@@ -12,6 +12,7 @@ def random_tree_generation():
 # but uses numbers for letters, e.g. 1 for a, 2 for b,...
 def generate_tree_24_1():
     t241 = treap(treap_node(3, 7))
+    t241.root.clear_snapshots()
     t241.insert(treap_node(4, 3))
     t241.insert(treap_node(5, 10))
     t241.insert(treap_node(2, 1))
