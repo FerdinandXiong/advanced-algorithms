@@ -12,15 +12,25 @@ def random_tree_generation():
 # but uses numbers for letters, e.g. 1 for a, 2 for b,...
 def generate_tree_24_1():
     t241 = treap(treap_node(3, 7))
-    t241.root.clear_snapshots()
+    treap_node.clear_snapshots()
     t241.insert(treap_node(4, 3))
     t241.insert(treap_node(5, 10))
     t241.insert(treap_node(2, 1))
     t241.insert(treap_node(1, 4))
-    t241.visualize()
     print(t241.find(2))
     t241.delete(4)
     t241.visualize()
 
+def generate_exam_tree_WS2324():
+    tws2324 = treap(treap_node(8, 3))
+    treap_node.clear_snapshots()
+    tws2324.insert(treap_node(2, 6))
+    tws2324.insert(treap_node(11, 7))
+    tws2324.insert(treap_node(1, 9))
+    tws2324.insert(treap_node(5, 8))
+    # tws2324.insert(treap_node(4, 4))
+    tws2324.delete(8)
+    tws2324.visualize()
+
 if __name__ == "__main__":
-    generate_tree_24_1()
+    generate_exam_tree_WS2324()
