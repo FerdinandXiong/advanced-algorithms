@@ -4,3 +4,6 @@ __pycache__/
 
 # Cython debug symbols
 *.so
+
+# Ignore all generated PNGs or image files
+*.png
