@@ -1,6 +1,6 @@
 import unittest
 from divide_and_conquer_algorithms import max_sum, max_sum2  # Import from the main file
-from fft import fft, multiply_polynomials # Import fft from the correct file
+from fft import fft, fft2, multiply_polynomials # Import fft from the correct file
 
 class TestMaxSumArray(unittest.TestCase):
     def test_max_sum(self):
@@ -31,10 +31,16 @@ class TestFFT2result(unittest.TestCase):
         coefficient_polynom_2 = [-1, 5, 0, 0]
 
         multiply_polynomials(coefficient_polynom_1, coefficient_polynom_2)
+        
+class TestFFT2examWS2324(unittest.TestCase):
+    def test_fft_simple(self):       
+        coefficient_polynom_1 = [-1, 2, -4, 7]
+        fft2(coefficient_polynom_1)
 
+        
 if __name__ == "__main__":
     # Create a test suite for only the TestFFT2result class
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestFFT2result)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestFFT2examWS2324)
     
     # Run the test suite
     unittest.TextTestRunner().run(suite)
