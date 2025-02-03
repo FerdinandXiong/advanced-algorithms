@@ -37,27 +37,37 @@ def fft(a):
     return d_result
 
 
-def fft2(a, inverse=False):
+import sympy as sp
+
+def fft2(a, inverse=False, depth=0):
     """
     Compute the FFT of an input array `a` with size n=2^k.
     Uses exact symbolic computation for roots of unity.
     """
-    print(f"Compute the{' inverse' if inverse else ''} FFT of:")
-    print(a)
+    indent = "    " * depth  # Indentation based on depth
+    print(f"{indent}Compute the{' inverse' if inverse else ''} FFT of:")
+    print(f"{indent}{a}")
 
     n = len(a)
     if n <= 1:
+        print(f"{indent}Base case reached (n <= 1), returning: {a}")
         return a
     
     # Recursive divide step
     even, odd = a[::2], a[1::2]
-    d_even = fft2(even, inverse=inverse)
-    d_odd = fft2(odd, inverse=inverse)
+    print(f"{indent}Splitting into even and odd indices:")
+    print(f"{indent}Even: {even}")
+    print(f"{indent}Odd: {odd}")
 
-    print("FFT of even indices:")
-    print(d_even)
-    print("FFT of odd indices:")
-    print(d_odd)
+    print(f"{indent}Recursively computing{' inverse' if inverse else ''} FFT of even indices:")
+    d_even = fft2(even, inverse=inverse, depth=depth + 1)
+    print(f"{indent}Recursively computing{' inverse' if inverse else ''} FFT of odd indices:")
+    d_odd = fft2(odd, inverse=inverse, depth=depth + 1)
+
+    print(f"{indent}{'inverse ' if inverse else ''}FFT of even indices:")
+    print(f"{indent}{d_even}")
+    print(f"{indent}{'inverse ' if inverse else ''}FFT of odd indices:")
+    print(f"{indent}{d_odd}")
 
     # Exact n-th root of unity: omega_n = exp(2 * pi * I / n)
     omega_n = sp.simplify(sp.exp(-2 * sp.pi * sp.I / n) if inverse else (sp.exp(2 * sp.pi * sp.I / n)))
@@ -66,21 +76,20 @@ def fft2(a, inverse=False):
 
     # Merge step
     for k in range(n // 2):
-        print(f"For n={n}, k={k}, omega={omega}:, omega_n={omega_n}")       
-        print(f"result[{k}] = d_even[{k}] + {omega} * d_odd[{k}]")
+        print(f"{indent}For n={n}, k={k}, omega={omega}:, omega_n={omega_n}")       
+        print(f"{indent}    result[{k}] = d_even[{k}] + {omega} * d_odd[{k}]")
         d_result[k] = sp.simplify(d_even[k] + omega * d_odd[k])
-        print(f"result[{k + n//2}] = d_even[{k}] - {omega} * d_odd[{k}]")
+        print(f"{indent}    result[{k + n//2}] = d_even[{k}] - {omega} * d_odd[{k}]")
         d_result[k + n // 2] = sp.simplify(d_even[k] - omega * d_odd[k])
-        print("Result so far:", d_result)
+        print(f"{indent}    Result so far:")
+        print(f"{indent}    {d_result}")
 
         # Update omega for the next iteration
-        
-        print(f" {omega} = {omega} * {omega_n}")
+        print(f"{indent}    omega = {omega} * {omega_n}")
         omega = sp.simplify(omega * omega_n)
-        print(f"= {omega}")
-        
-    # plotting polynomial
-    # plot_polynomial(d_result, filename=f"output/fft")
+        print(f"{indent}    = {omega}")
+
+    print(f"{indent}Returning result for depth {depth}: {d_result}")
     return d_result
 
 def pointwise_multiplication(a, b):

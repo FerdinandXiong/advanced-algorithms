@@ -33,5 +33,9 @@ class TestFFT2result(unittest.TestCase):
         multiply_polynomials(coefficient_polynom_1, coefficient_polynom_2)
 
 if __name__ == "__main__":
-    unittest.main()  # Run all tests
+    # Create a test suite for only the TestFFT2result class
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestFFT2result)
+    
+    # Run the test suite
+    unittest.TextTestRunner().run(suite)
 
