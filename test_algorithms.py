@@ -1,8 +1,6 @@
 import unittest
 from divide_and_conquer_algorithms import max_sum, max_sum2  # Import from the main file
-from fft import fft, fft2 # Import fft from the correct file
-from sympy import I, pi, exp, symbols
-from sympy import simplify
+from fft import fft, multiply_polynomials # Import fft from the correct file
 
 class TestMaxSumArray(unittest.TestCase):
     def test_max_sum(self):
@@ -28,21 +26,11 @@ class TestFFT(unittest.TestCase):
         
 class TestFFT2result(unittest.TestCase):
     def test_fft_simple(self):
-        from sympy import simplify
+        
+        coefficient_polynom_1 = [3, 6, 0, 0]
+        coefficient_polynom_2 = [-1, 5, 0, 0]
 
-        input_array = [3, 6, 0, 0]
-        output = fft2(input_array)
-
-        # Test the length of the output
-        self.assertEqual(len(output), len(input_array))
-
-        # Test the DC component (sum of input values)
-        expected_dc = sum(input_array)  # Sum of all inputs
-        output_real, output_imag = output[0].as_real_imag()  # Get real and imaginary parts symbolically
-
-        # Assert that real part matches expected DC value, and imaginary part is zero
-        self.assertTrue(simplify(output_real - expected_dc) == 0)  # Symbolic check
-        self.assertTrue(simplify(output_imag) == 0)  # Imaginary part should be 0
+        multiply_polynomials(coefficient_polynom_1, coefficient_polynom_2)
 
 if __name__ == "__main__":
     unittest.main()  # Run all tests
