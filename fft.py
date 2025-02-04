@@ -113,6 +113,31 @@ def multiply_polynomials(pol1, pol2):
     print(coefficient_product)
     print("finished")
     plot_polynomial(coefficient_product, filename=f"output/fft")
+    
+    return coefficient_product
+    
+# calculates all additions a + b of 2 sets A and B in nlogn time
+# idea: construct 2 polynoms polA = x^a1, x^a2, ... and polB = x^b1, x^b2
+# with an, bn ∈ [n - 1]
+# then, do fft multiplication with them, the result contains all
+# sums of a and b
+def setAddition(setA, setB, n):
+    polA = [0] * n
+    polB = [0] * n
+    
+    for i in setA:
+        polA[i] = 1
+        
+    for i in setB:
+        polB[i] = 1
+    
+    mult_result = multiply_polynomials(polA, polB)
+    result_set = set()
+    for i in range (n):
+        print(f"i = {i}, multresult[i] = {mult_result[i]}")
+        if(mult_result[i] > 0):
+            result_set.add(i)
+    return result_set
 
 def plot_polynomial(coeffs, filename):
     """
