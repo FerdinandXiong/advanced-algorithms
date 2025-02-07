@@ -3,7 +3,7 @@ import glob
 import os
 from graphviz import Digraph  # Importing Graphviz for visualization
 
-class treap_node():
+class TreapNode():
     snapshot_counter = 0  # Class-level counter for snapshots
     
     def __init__(self, key, prio=None, treap=None):
@@ -16,26 +16,26 @@ class treap_node():
         
         print(f"Created node with key {self.key} and prio {self.prio}")
         
-    def insert(self, treap_node):
-        treap_node.treap = self.treap  # Ensure the treap reference is propagated
-        if treap_node.key < self.key:
+    def insert(self, TreapNode):
+        TreapNode.treap = self.treap  # Ensure the treap reference is propagated
+        if TreapNode.key < self.key:
             if self.left_child is None:
-                self.left_child = treap_node
-                treap_node.parent = self
-                treap_node.restore_heap_property()                    
+                self.left_child = TreapNode
+                TreapNode.parent = self
+                TreapNode.restore_heap_property()                    
                 self.treap.visualize()  # Visualize after insert         
                 self.capture_snapshot("After insert")
             else:
-                self.left_child.insert(treap_node)
+                self.left_child.insert(TreapNode)
         else:
             if self.right_child is None:
-                self.right_child = treap_node
-                treap_node.parent = self
-                treap_node.restore_heap_property()
+                self.right_child = TreapNode
+                TreapNode.parent = self
+                TreapNode.restore_heap_property()
                 self.treap.visualize()  # Visualize after insert         
                 self.capture_snapshot("After insert")                
             else:
-                self.right_child.insert(treap_node)
+                self.right_child.insert(TreapNode)
                     
     def restore_heap_property(self):
         print("Restoring heap property")
@@ -170,26 +170,26 @@ class treap_node():
 
         directory = 'output'
         graph = self.treap.root.to_dot()
-        filename = f"{directory}/treap_step_{treap_node.snapshot_counter:02d}"
+        filename = f"{directory}/treap_step_{TreapNode.snapshot_counter:02d}"
         graph.render(filename=filename, format="png", cleanup=True)
         print(f"Captured snapshot: {filename} - {description}")
-        treap_node.snapshot_counter += 1
+        TreapNode.snapshot_counter += 1
 
-class treap():
+class Treap():
     def __init__(self, root=None):
         self.root = root
         if root:
             root.treap = self
         
-    def insert(self, treap_node):
-        print(f"Inserting node with key {treap_node.key} and prio {treap_node.prio}")
-        treap_node.treap = self  # Set the treap reference
+    def insert(self, TreapNode):
+        print(f"Inserting node with key {TreapNode.key} and prio {TreapNode.prio}")
+        TreapNode.treap = self  # Set the treap reference
         if self.root is None:
-            self.root = treap_node
+            self.root = TreapNode
         else:
-            self.root.insert(treap_node)
-            if treap_node.prio < self.root.prio:
-                self.root = treap_node  # Update root if necessary
+            self.root.insert(TreapNode)
+            if TreapNode.prio < self.root.prio:
+                self.root = TreapNode  # Update root if necessary
     
     def find(self, key):
         print(f"Finding node with key {key}")
