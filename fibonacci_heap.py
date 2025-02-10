@@ -100,9 +100,12 @@ class FibonacciHeap:
         root_nodes = [x for x in self._iterate(self.min_node)]
         for node in root_nodes:
             degree = node.degree
+            print(f"degree table for current node {node.key}:")
+            for key in degree_table:
+                print(f"degree_Table[{key}] = {degree_table[key].key}")
             while degree in degree_table:
                 other = degree_table[degree]
-                print(degree_table)
+                print(f"Heap {node.key} has collision with {other.key} and need to get merged:")
                 if other.key < node.key:
                     node, other = other, node
                 self._link(other, node)
@@ -154,7 +157,6 @@ class FibonacciHeap:
         self._remove_from_sibling_list(node)
         self._add_to_root_list(node)
         node.parent = None
-        node.mark = False
 
     def _cascading_cut(self, node):
         parent = node.parent
@@ -174,12 +176,28 @@ class FibonacciHeap:
         graph = Digraph("FibonacciHeap", node_attr={'shape': 'circle', 'fontsize': '12'}, graph_attr={'rankdir': 'TB'})
 
         if self.min_node:
-            for node in self._iterate(self.min_node):
-                graph.node(str(node.key), label=f"{node.key}\nDeg:{node.degree}")
+            root_nodes = list(self._iterate(self.min_node))
+            
+            # Create a subgraph to keep min pointer at the same level
+            with graph.subgraph() as s:
+                s.attr(rank="same")  # Ensure same rank for root list nodes
+                for node in root_nodes:
+                    label = f"{node.key}\\nDeg:{node.degree}"
+                    if node == self.min_node:
+                        label += "\\n(Min)"  # Mark min node
+                    s.node(str(node.key), label=label)
+            
+            # Optional: Add "Min" pointer above the root list
+            graph.node("min_pointer", label="Min", shape="plaintext", fontsize="12")
+            graph.edge("min_pointer", str(self.min_node.key), style="dashed")
+
+            # Add children recursively
+            for node in root_nodes:
                 if node.child:
                     self._add_children_to_dot(graph, node)
 
         return graph
+
 
     def _add_children_to_dot(self, graph, parent):
         """Helper function to recursively add children nodes to the graph."""

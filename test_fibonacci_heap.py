@@ -12,20 +12,15 @@ class TestFibonacciHeap(unittest.TestCase):
         self.fib_heap.insert(40)
         self.fib_heap.insert(8)
         self.fib_heap.insert(15)
-        self.fib_heap.insert(22)
-        
+        self.fib_heap.insert(22)        
         self.fib_heap.insert(37)
         self.fib_heap.insert(19)
         self.fib_heap.insert(5)
         self.fib_heap.insert(45)
         self.fib_heap.insert(27)
-
-        self.fib_heap.delete_min()
-        
-        self.fib_heap.decrease_key(self.fib_heap.min_node.right, 7)
-        
-        self.fib_heap.decrease_key(self.fib_heap.min_node.child.right.child, 16)
-        
+        self.fib_heap.delete_min()       
+        self.fib_heap.decrease_key(self.fib_heap.min_node.right, 7)        
+        self.fib_heap.decrease_key(self.fib_heap.min_node.child.right.child, 16)       
         self.fib_heap.delete_min()
         
     # def test_meld(self):
