@@ -138,6 +138,7 @@ class FibonacciHeap:
         return node.right
 
     def decrease_key(self, node, new_key):
+        print(f"Decreasing node {node.key} to {new_key}:")
         if new_key > node.key:
             raise ValueError("New key must be smaller than current key")
         node.key = new_key

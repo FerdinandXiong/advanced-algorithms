@@ -99,6 +99,7 @@ def randomized_primality_test(n):
 # tests the randomized primality test for all powers of 2
 # starting with d = n - 1
 def miller_rabin_test(n):
+    print(f"trying Miller Rabin test for n = {n}")
     if n == 2:
         return True
 
@@ -106,18 +107,25 @@ def miller_rabin_test(n):
     r = 0
     while d % 2 == 0:
         r += 1
-        d //= 2    
+        d //= 2
+    
+    print (f"pow x r = {r} times")    
     
     for _ in range (10): # randomly selected number
         a = random.randint(2, n-1)
-        x = pow(a, d, n)
+        print(f"calculate one iteration of power with a = {a}:")
+        x = pow(a, d, n)       
+        print(f"x = {x}, after calculating x = a^d mod n = {a} ^ {d} mod {n}")
         if x == 1 or x == n - 1:
             continue
         
         for _ in range (r - 1):
             # checking for charimichael nubers: by squaring x
+            print("in loop")
             x = pow(x, 2, n)
+            print(f"x = {x}, after calculating x = a^d mod n = {a} ^ {d} mod {n}, continue with r = {r}")
             if x == n - 1:
+                print("fails in loop because x == -1")
                 break
             
         else:

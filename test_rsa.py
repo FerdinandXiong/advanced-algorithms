@@ -18,9 +18,9 @@ class TestRSA(unittest.TestCase):
         print(private_key)
         message = "H w"
         ciphertext = encrypt(text_to_int(message), public_key)
-        print(ciphertext)
+        print(f"encrypt(message) = ciphertext = {ciphertext}")
         plaintext = int_to_text(decrypt(ciphertext, private_key))
-        print(plaintext)
+        print(f"decrypt(ciphertext) = plaintext = {plaintext}")
         self.assertEqual(plaintext, message)
 
     # def test_large_message(self):
