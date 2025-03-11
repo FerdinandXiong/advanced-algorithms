@@ -1,4 +1,11 @@
-from treap import Treap, TreapNode
+import sys
+import os
+
+# Add the algorithms directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from algorithms.treap import Treap, TreapNode
+
 def random_tree_generation():
     t = Treap(TreapNode(70))
     t.insert(TreapNode(65))

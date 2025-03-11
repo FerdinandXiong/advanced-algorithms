@@ -1,5 +1,11 @@
 import unittest
-from fibonacci_heap import FibonacciHeap
+import sys
+import os
+
+# Add the algorithms directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from algorithms.fibonacci_heap import FibonacciHeap
 
 class TestFibonacciHeap(unittest.TestCase):
     def setUp(self):

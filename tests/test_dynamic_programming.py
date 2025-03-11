@@ -1,7 +1,13 @@
 import unittest
-from dynamic_programming import max_money, path_max_money, weight_sum_possible
+import sys
+import os
 
-class TestQuicksort(unittest.TestCase):
+# Add the algorithms directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from algorithms.dynamic_programming import max_money, path_max_money, weight_sum_possible
+
+class TestDynamicProgramming(unittest.TestCase):
     def test_money(self):
         input = [
             [5, 3, 2, 1],
@@ -14,7 +20,7 @@ class TestQuicksort(unittest.TestCase):
     def test_weight(self):
         weights = {1, 3, 6, 8}
         target = 13
-        print (weight_sum_possible(weights, target))
+        print(weight_sum_possible(weights, target))
         
 if __name__ == "__main__":
     unittest.main()

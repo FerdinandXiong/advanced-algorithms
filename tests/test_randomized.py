@@ -1,5 +1,5 @@
 import unittest
-from randomized_algorithms import quicksort, naive_is_prime, simple_probably_prime_test, randomized_primality_test, fast_exponent, fast_exponent_mod, miller_rabin_test
+from algorithms.randomized_algorithms import quicksort, naive_is_prime, simple_probably_prime_test, randomized_primality_test, fast_exponent, fast_exponent_mod, miller_rabin_test
 
 class TestQuicksort(unittest.TestCase):
     def test_quicksort(self):

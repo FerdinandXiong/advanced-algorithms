@@ -1,6 +1,12 @@
 import unittest
-from divide_and_conquer_algorithms import max_sum, max_sum2  # Import from the main file
-from fft import fft, fft2, multiply_polynomials, setAddition # Import fft from the correct file
+import sys
+import os
+
+# Add the algorithms directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from algorithms.divide_and_conquer_algorithms import max_sum, max_sum2  # Import from the main file
+from algorithms.fft import fft, fft2, multiply_polynomials, setAddition # Import fft from the correct file
 
 class TestMaxSumArray(unittest.TestCase):
     def test_max_sum(self):
@@ -33,9 +39,9 @@ class TestFFT2result(unittest.TestCase):
         multiply_polynomials(coefficient_polynom_1, coefficient_polynom_2)
         
 class TestFFT2examWS2324(unittest.TestCase):
-    # def test_fft2_simple(self):       
-    #     coefficient_polynom_1 = [-1, 2, -4, 7]
-    #     fft2(coefficient_polynom_1)
+    def test_fft2_simple(self):       
+        coefficient_polynom_1 = [-1, 2, -4, 7]
+        fft2(coefficient_polynom_1)
     
     def test_set_sum(self):
         A = {0, 2, 3}
@@ -45,7 +51,7 @@ class TestFFT2examWS2324(unittest.TestCase):
 
         
 if __name__ == "__main__":
-    # Create a test suite for only the TestFFT2result class
+    # Create a test suite for only the TestFFT2examWS2324 class
     suite = unittest.TestLoader().loadTestsFromTestCase(TestFFT2examWS2324)
     
     # Run the test suite
