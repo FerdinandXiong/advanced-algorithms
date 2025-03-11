@@ -1,4 +1,10 @@
 import unittest
+import sys
+import os
+
+# Add the algorithms directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from algorithms.randomized_algorithms import quicksort, naive_is_prime, simple_probably_prime_test, randomized_primality_test, fast_exponent, fast_exponent_mod, miller_rabin_test
 
 class TestQuicksort(unittest.TestCase):
